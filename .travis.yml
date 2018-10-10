@@ -6,5 +6,5 @@ install:
   - nuget restore AspNet.WebApi.CookiesPassthrough.sln
   - nuget install NUnit.Console -Version 3.9.0 -OutputDirectory testrunner
 script:
-  - xbuild /p:Configuration=Release AspNet.WebApi.CookiesPassthrough.sln
+  - msbuild AspNet.WebApi.CookiesPassthrough.sln /p:Configuration=Release 
   - mono ./testrunner/NUnit.Runners.3.9.0/tools/nunit-console.exe ./AspNet.WebApi.CookiesPassthrough.Tests/bin/Release/AspNet.WebApi.CookiesPassthrough.Tests.dll
