@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNet.WebApi.CookiesPassth
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNet.WebApi.CookiesPassthrough.Tests", "AspNet.WebApi.CookiesPassthrough.Tests\AspNet.WebApi.CookiesPassthrough.Tests.csproj", "{C5BC2F6A-F0ED-4CEF-B111-53466544521D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNet.WebApi.CookiesPassthrough.Example", "AspNet.WebApi.CookiesPassthrough.Example\AspNet.WebApi.CookiesPassthrough.Example.csproj", "{96C58219-2793-4216-B83E-8CAAAC0C8F16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C5BC2F6A-F0ED-4CEF-B111-53466544521D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5BC2F6A-F0ED-4CEF-B111-53466544521D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5BC2F6A-F0ED-4CEF-B111-53466544521D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96C58219-2793-4216-B83E-8CAAAC0C8F16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96C58219-2793-4216-B83E-8CAAAC0C8F16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96C58219-2793-4216-B83E-8CAAAC0C8F16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96C58219-2793-4216-B83E-8CAAAC0C8F16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
