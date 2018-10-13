@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,16 +18,18 @@ namespace AspNet.WebApi.CookiesPassthrough.Tests
     {
         [Test]
         [AutoMoqData]
-        public async Task SetCookieHeaderFromDescriptorsTestAsync(
+        public async Task SetCookieHeaderFromDescriptors_WithoutAllSubdomainsEnabledAsync(
             [Frozen] Mock<IHttpActionResult> actionResult,
-            [Frozen] CookieDescriptor[] cookieDescriptors,
+            [Frozen] List<CookieDescriptor> cookieDescriptors,
             CancellationToken token,
             HttpResponseMessage responseMessage,
             string domain
         )
         {
             // Arrange
-            var sut = new CookieActionResult(actionResult.Object, cookieDescriptors, domain);
+            var duplicatesCookies = cookieDescriptors.ToList();
+            duplicatesCookies.Add(cookieDescriptors[1]);
+            var sut = new CookieActionResult(actionResult.Object, duplicatesCookies, domain);
             actionResult.Setup(m => m.ExecuteAsync(It.Is<CancellationToken>(t => t == token))).Returns(Task.FromResult(responseMessage));
 
             // Act
@@ -34,6 +38,30 @@ namespace AspNet.WebApi.CookiesPassthrough.Tests
             // Assert
             actionResult.VerifyAll();
             responseMessage.Headers.GetValues("Set-Cookie").Should().BeEquivalentTo(cookieDescriptors.ToHttpHeaders(domain));
+        }
+
+        [Test]
+        [AutoMoqData]
+        public async Task SetCookieHeaderFromDescriptors_WithAllSubdomainsEnabledAsync(
+            [Frozen] Mock<IHttpActionResult> actionResult,
+            [Frozen] List<CookieDescriptor> cookieDescriptors,
+            CancellationToken token,
+            HttpResponseMessage responseMessage,
+            string domain
+        )
+        {
+            // Arrange
+            var duplicatesCookies = cookieDescriptors.ToList();
+            duplicatesCookies.Add(cookieDescriptors[1]);
+            var sut = new CookieActionResult(actionResult.Object, duplicatesCookies, domain);
+            actionResult.Setup(m => m.ExecuteAsync(It.Is<CancellationToken>(t => t == token))).Returns(Task.FromResult(responseMessage));
+
+            // Act
+            await sut.EnableCookiesForAllSubdomains().ExecuteAsync(token);
+
+            // Assert
+            actionResult.VerifyAll();
+            responseMessage.Headers.GetValues("Set-Cookie").Should().BeEquivalentTo(cookieDescriptors.ToHttpHeaders(domain, true));
         }
     }
 }

@@ -4,10 +4,13 @@ namespace AspNet.WebApi.CookiesPassthrough
 {
     public static class HttpRequestMessageExtensions
     {
-        public static string GetClientHost(this HttpRequestMessage req)
-        {
-            var referrer = req?.Headers.Referrer;
-            return !string.IsNullOrWhiteSpace(referrer?.Host) ? referrer.Host : string.Empty;
-        }
+        /// <summary>
+        /// Get host from Referrer header
+        /// </summary>
+        public static string GetReferrerHost(this HttpRequestMessage req) => req?.Headers.Referrer?.Host;
+        /// <summary>
+        /// Get host from request URI
+        /// </summary>
+        public static string GetRequestHost(this HttpRequestMessage req) => req?.RequestUri.Host;
     }
 }

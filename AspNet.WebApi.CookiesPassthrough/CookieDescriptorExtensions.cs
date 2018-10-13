@@ -10,10 +10,10 @@ namespace AspNet.WebApi.CookiesPassthrough
     {
         public static IEnumerable<string> ToHttpHeaders(
             this IEnumerable<CookieDescriptor> cookieDescriptors,
-            string domain, bool forAllSubdomains = true) =>
+            string domain, bool forAllSubdomains = false) =>
             cookieDescriptors.Select(cd => cd.ToHttpHeader(domain, forAllSubdomains));
 
-        public static string ToHttpHeader(this CookieDescriptor cookieDescriptor, string domain, bool forAllSubdomains = true)
+        public static string ToHttpHeader(this CookieDescriptor cookieDescriptor, string domain, bool forAllSubdomains = false)
         {
             string domainPart;
 
