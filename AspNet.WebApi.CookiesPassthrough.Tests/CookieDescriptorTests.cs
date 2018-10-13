@@ -13,7 +13,7 @@ namespace AspNet.WebApi.CookiesPassthrough.Tests
     {
         [Test]
         [AutoData]
-        public void EqualityTest(CookieDescriptor cookieDescriptor)
+        public void Equality(CookieDescriptor cookieDescriptor)
         {
             // Arrange
             var cookieDescriptorNew = new CookieDescriptor(cookieDescriptor.Name, cookieDescriptor.Value);
@@ -25,35 +25,52 @@ namespace AspNet.WebApi.CookiesPassthrough.Tests
         }
 
         [Test]
-        [TestCase("localhost", "localhost", true, true)]
-        [TestCase("www.localhost", "localhost", false, true)]
-        [TestCase("www.localhost.ru", ".localhost.ru", true, true)]
-        [TestCase("example.org", ".example.org", false, true)]
-        [TestCase("www.example.org", ".example.org", true, true)]
-        [TestCase("localhost", "localhost", true, false)]
-        [TestCase("www.localhost", "www.localhost", false, false)]
-        [TestCase("www.localhost.ru", "www.localhost.ru", true, false)]
-        [TestCase("example.org", "example.org", false, false)]
-        [TestCase("www.example.org", "www.example.org", true, false)]
-        public void ToHttpHeaderTest(string domain, string domainInHeader, bool isHttpOnly, bool forAllSubdomains)
+        [TestCase("localhost", "localhost", true)]
+        [TestCase("www.localhost", "localhost", true)]
+        [TestCase("www.localhost.ru", ".localhost.ru", true)]
+        [TestCase("example.org", ".example.org", true)]
+        [TestCase("www.example.org", ".example.org", true)]
+        [TestCase("localhost", "localhost", false)]
+        [TestCase("www.localhost", "www.localhost", false)]
+        [TestCase("www.localhost.ru", "www.localhost.ru", false)]
+        [TestCase("example.org", "example.org", false)]
+        [TestCase("www.example.org", "www.example.org", false)]
+        public void ToHttpHeader_DifferentDomains(string domain, string domainInHeader, bool forAllSubdomains)
         {
             // Arrange
-            var cookieDescriptor = new CookieDescriptor("a", "b")
-            {
-                Expires = new DateTime(1992, 12, 23),
-                HttpOnly = isHttpOnly
-            };
-            var httpOnlyPart = isHttpOnly ? "HttpOnly; " : "";
+            var cookieDescriptor = new CookieDescriptor("a", "b");
 
             // Act
             var result = cookieDescriptor.ToHttpHeader(domain, forAllSubdomains);
 
             // Assert
-            result.Should().BeEquivalentTo($"a=b; expires=Wed, 23 Dec 1992 00:00:00 GMT; {httpOnlyPart}domain={domainInHeader}; path=/");
+            result.Should().BeEquivalentTo($"a=b; domain={domainInHeader}; path=/");
         }
 
         [Test]
-        public void ToHttpHeaderEmptyDomainTest()
+        public void ToHttpHeader_DifferentFlags([Values]bool isHttpOnly, [Values]bool isSecure)
+        {
+            // Arrange
+            const string domain = "www.example.org";
+
+            var cookieDescriptor = new CookieDescriptor("a", "b")
+            {
+                Expires = new DateTime(1992, 12, 23),
+                HttpOnly = isHttpOnly,
+                Secure = isSecure,
+            };
+            var httpOnlyPart = isHttpOnly ? "HttpOnly; " : "";
+            var securePart = isSecure ? "Secure; " : "";
+
+            // Act
+            var result = cookieDescriptor.ToHttpHeader(domain);
+
+            // Assert
+            result.Should().BeEquivalentTo($"a=b; expires=Wed, 23 Dec 1992 00:00:00 GMT; {httpOnlyPart}{securePart}domain={domain}; path=/");
+        }
+
+        [Test]
+        public void ToHttpHeader_EmptyDomain()
         {
             // Arrange
             var cookieDescriptor = new CookieDescriptor("a", "b")
@@ -70,7 +87,7 @@ namespace AspNet.WebApi.CookiesPassthrough.Tests
 
         [Test]
         [AutoData]
-        public void ToHttpHeadersTest(CookieDescriptor[] cookieDescriptors)
+        public void ToHttpHeader_IEnumerable(CookieDescriptor[] cookieDescriptors)
         {
             // Arrange
 

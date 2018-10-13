@@ -31,10 +31,11 @@ namespace AspNet.WebApi.CookiesPassthrough
                 domainPart = "";
             }
 
-            var expiresPart = cookieDescriptor.Expires == DateTime.MinValue ? "" : $"expires={cookieDescriptor.Expires:R}; ";
+            var expiresPart = cookieDescriptor.Expires == default(DateTime) ? "" : $"expires={cookieDescriptor.Expires:R}; ";
             var httpOnlyPart = cookieDescriptor.HttpOnly ? "HttpOnly; " : "";
+            var securePart = cookieDescriptor.Secure ? "Secure; " : "";
 
-            return $"{cookieDescriptor.Name}={HttpUtility.UrlDecode(cookieDescriptor.Value)}; {expiresPart}{httpOnlyPart}{domainPart}path=/";
+            return $"{cookieDescriptor.Name}={HttpUtility.UrlDecode(cookieDescriptor.Value)}; {expiresPart}{httpOnlyPart}{securePart}{domainPart}path=/";
         }
     }
 }

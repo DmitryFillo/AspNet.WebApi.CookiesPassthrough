@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace AspNet.WebApi.CookiesPassthrough
 {
+    /// <summary>
+    /// Encapsulates cookie record
+    /// </summary>
     [DebuggerDisplay("{Name}={Value}")]
     public class CookieDescriptor : IEquatable<CookieDescriptor>
     {
@@ -15,6 +18,7 @@ namespace AspNet.WebApi.CookiesPassthrough
         public string Name { get; }
         public string Value { get; }
         public bool HttpOnly { get; set; }
+        public bool Secure { get; set; }
         public DateTime Expires { get; set; }
 
         public bool Equals(CookieDescriptor other)

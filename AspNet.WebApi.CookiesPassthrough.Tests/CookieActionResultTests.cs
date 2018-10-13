@@ -29,7 +29,9 @@ namespace AspNet.WebApi.CookiesPassthrough.Tests
             // Arrange
             var duplicatesCookies = cookieDescriptors.ToList();
             duplicatesCookies.Add(cookieDescriptors[1]);
+
             var sut = new CookieActionResult(actionResult.Object, duplicatesCookies, domain);
+
             actionResult.Setup(m => m.ExecuteAsync(It.Is<CancellationToken>(t => t == token))).Returns(Task.FromResult(responseMessage));
 
             // Act

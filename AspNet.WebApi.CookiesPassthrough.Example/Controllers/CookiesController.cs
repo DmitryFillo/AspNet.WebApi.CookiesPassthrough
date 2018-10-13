@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading;
-using System.Web;
 using System.Web.Http;
 
 namespace AspNet.WebApi.CookiesPassthrough.Example.Controllers
@@ -19,10 +13,14 @@ namespace AspNet.WebApi.CookiesPassthrough.Example.Controllers
             {
                 // NOTE: it's possible to set cookies like this with '='
                 new CookieDescriptor("test-cookie", "a=test-cookie"),
+
                 // NOTE: duplicates will be automatically excluded
                 new CookieDescriptor("test-cookie", "a=test-cookie"),
-                // NOTE: automatic decode
-                new CookieDescriptor("test-cookie2", "a%3Dtest-cookie"),
+
+                // NOTE: automatic decode and secure cookie
+                new CookieDescriptor("test-cookie2", "a%3Dtest-cookie") { Secure = true },
+
+                // NOTE: with Expires
                 new CookieDescriptor("test-cookie-id", id.ToString()) { HttpOnly = true, Expires = new DateTime(1992, 1, 1)},
             };
 
@@ -51,7 +49,7 @@ namespace AspNet.WebApi.CookiesPassthrough.Example.Controllers
                         .AddCookies(cookieDescriptors, "localhost")
                         .EnableCookiesForAllSubdomains();
                 case 6:
-                    // NOTE: adds same cookies for different domains and makes last domain with dot at the start
+                    // NOTE: adds same cookies for different domains and makes last cookies domain with dot at the start
                     return Ok()
                         .AddCookies(cookieDescriptors, "example.org")
                         .AddCookies(cookieDescriptors, "example.net")

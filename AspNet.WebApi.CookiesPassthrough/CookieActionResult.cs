@@ -7,6 +7,9 @@ using System.Web.Http;
 
 namespace AspNet.WebApi.CookiesPassthrough
 {
+    /// <summary>
+    /// IHttpActionResult decorator with cookies
+    /// </summary>
     public class CookieActionResult : IHttpActionResult
     {
         private readonly IEnumerable<CookieDescriptor> _cookieDescriptors;
@@ -37,6 +40,10 @@ namespace AspNet.WebApi.CookiesPassthrough
             return response;
         }
 
+        /// <summary>
+        /// Adds dot before domain to make cookies visible for all subdomains
+        /// </summary>
+        /// <returns></returns>
         public CookieActionResult EnableCookiesForAllSubdomains()
         {
             _forAllSubdomains = true;
