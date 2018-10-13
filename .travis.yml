@@ -4,10 +4,10 @@ mono:
   - 5.16.0
 install:
   - nuget restore AspNet.WebApi.CookiesPassthrough.sln
-  - nuget install NUnit.ConsoleRunner -Version 3.9.0 -OutputDirectory testrunner
-  - nuget install coveralls.net -Version 1.0.0 -OutputDirectory testrunner
+  - nuget install NUnit.ConsoleRunner -Version 3.9.0
+  - nuget install coveralls.net -Version 1.0.0
 script:
   - msbuild AspNet.WebApi.CookiesPassthrough.sln /p:Configuration=Release 
-  - mono --debug --profile=monocov:outfile=monocovCoverage.cov,+[AspNet.WebApi.CookiesPassthrough],+[AspNet.WebApi.CookiesPassthrough.Tests] ./testrunner/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./AspNet.WebApi.CookiesPassthrough.Tests/bin/Release/AspNet.WebApi.CookiesPassthrough.Tests.dll /noshadow
+  - mono --debug --profile=monocov:outfile=monocovCoverage.cov,+[AspNet.WebApi.CookiesPassthrough],+[AspNet.WebApi.CookiesPassthrough.Tests] ./packages/NUnit.ConsoleRunner.3.9.0/tools/nunit3-console.exe ./AspNet.WebApi.CookiesPassthrough.Tests/bin/Release/AspNet.WebApi.CookiesPassthrough.Tests.dll /noshadow
   - monocov --export-xml=monocovCoverage monocovCoverage.cov
-  - mono ./testrunner/coveralls.net.1.0.0/tools/csmacnz.Coveralls.exe --monocov -i ./monocovCoverage --repoToken $COVERALLS_REPO_TOKEN --commitId $TRAVIS_COMMIT --commitBranch $TRAVIS_BRANCH --commitAuthor "$REPO_COMMIT_AUTHOR" --commitEmail "$REPO_COMMIT_AUTHOR_EMAIL" --commitMessage "$REPO_COMMIT_MESSAGE" --jobId $TRAVIS_JOB_ID --serviceName "travis-ci" --useRelativePaths
+  - mono ./packages/coveralls.net.1.0.0/tools/csmacnz.Coveralls.exe --monocov -i ./monocovCoverage --repoToken $COVERALLS_REPO_TOKEN --commitId $TRAVIS_COMMIT --commitBranch $TRAVIS_BRANCH --commitAuthor "$REPO_COMMIT_AUTHOR" --commitEmail "$REPO_COMMIT_AUTHOR_EMAIL" --commitMessage "$REPO_COMMIT_MESSAGE" --jobId $TRAVIS_JOB_ID --serviceName "travis-ci" --useRelativePaths
