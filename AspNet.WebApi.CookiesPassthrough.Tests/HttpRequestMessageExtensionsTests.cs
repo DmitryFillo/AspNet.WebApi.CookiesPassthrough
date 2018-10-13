@@ -12,13 +12,13 @@ namespace AspNet.WebApi.CookiesPassthrough.Tests
     {
         [Test]
         [AutoMoqData]
-        public void GetClientDomainTest(HttpRequestMessage req)
+        public void GetReferrer_WithReferrer(HttpRequestMessage req)
         {
             // Arrange
             req.Headers.Referrer = new Uri("https://example.org/");
 
             // Act
-            var result = req.GetClientHost();
+            var result = req.GetReferrerHost();
 
             // Assert
             result.Should().Be("example.org");
@@ -26,28 +26,55 @@ namespace AspNet.WebApi.CookiesPassthrough.Tests
 
         [Test]
         [AutoMoqData]
-        public void GetClientDomainNoReferrerTest(HttpRequestMessage req)
+        public void GetReferrer_NoReferrer(HttpRequestMessage req)
         {
             // Arrange
 
             // Act
-            var result = req.GetClientHost();
+            var result = req.GetReferrerHost();
 
             // Assert
-            result.Should().BeEmpty();
+            result.Should().BeNull();
         }
 
         [Test]
-        public void GetClientDomainNullTest()
+        public void GetReferrer_NullTest()
         {
             // Arrange
             HttpRequestMessage req = null;
 
             // Act
-            var result = req.GetClientHost();
+            var result = req.GetReferrerHost();
 
             // Assert
-            result.Should().BeEmpty();
+            result.Should().BeNull();
+        }
+
+        [Test]
+        [AutoMoqData]
+        public void GetHost(HttpRequestMessage req)
+        {
+            // Arrange
+            req.RequestUri = new Uri("https://example.org/123");
+
+            // Act
+            var result = req.GetRequestHost();
+
+            // Assert
+            result.Should().Be("example.org");
+        }
+
+        [Test]
+        public void GetHost_NullTest()
+        {
+            // Arrange
+            HttpRequestMessage req = null;
+
+            // Act
+            var result = req.GetRequestHost();
+
+            // Assert
+            result.Should().BeNull();
         }
     }
 }
