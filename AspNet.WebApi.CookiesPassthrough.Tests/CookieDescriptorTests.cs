@@ -30,6 +30,7 @@ namespace AspNet.WebApi.CookiesPassthrough.Tests
         [TestCase("www.localhost.ru", ".localhost.ru", true)]
         [TestCase("example.org", ".example.org", true)]
         [TestCase("www.example.org", ".example.org", true)]
+        [TestCase(".www.example.org", ".www.example.org", true)]
         [TestCase("localhost", "localhost", false)]
         [TestCase("www.localhost", "www.localhost", false)]
         [TestCase("www.localhost.ru", "www.localhost.ru", false)]
@@ -48,7 +49,7 @@ namespace AspNet.WebApi.CookiesPassthrough.Tests
         }
 
         [Test]
-        public void ToHttpHeader_DifferentFlags([Values]bool isHttpOnly, [Values]bool isSecure)
+        public void ToHttpHeader_DifferentFlags([Values]bool isHttpOnly, [Values]bool isSecure, [Values("/test", null, "")]string path)
         {
             // Arrange
             const string domain = "www.example.org";
@@ -58,15 +59,17 @@ namespace AspNet.WebApi.CookiesPassthrough.Tests
                 Expires = new DateTime(1992, 12, 23),
                 HttpOnly = isHttpOnly,
                 Secure = isSecure,
+                Path = path,
             };
             var httpOnlyPart = isHttpOnly ? "HttpOnly; " : "";
             var securePart = isSecure ? "Secure; " : "";
-
+            var pathPart = string.IsNullOrEmpty(path) ? "path=/" : $"path={path}";
+                
             // Act
             var result = cookieDescriptor.ToHttpHeader(domain);
 
             // Assert
-            result.Should().BeEquivalentTo($"a=b; expires=Wed, 23 Dec 1992 00:00:00 GMT; {httpOnlyPart}{securePart}domain={domain}; path=/");
+            result.Should().BeEquivalentTo($"a=b; expires=Wed, 23 Dec 1992 00:00:00 GMT; {httpOnlyPart}{securePart}domain={domain}; {pathPart}");
         }
 
         [Test]

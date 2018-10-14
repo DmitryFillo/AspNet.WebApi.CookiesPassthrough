@@ -1,7 +1,7 @@
 ﻿namespace AspNet.WebApi.CookiesPassthrough
 {
     /// <summary>
-    /// Cookie code status
+    /// Controls encode / decode for cookie value
     /// </summary>
     public enum CookieCodeStatus
     {

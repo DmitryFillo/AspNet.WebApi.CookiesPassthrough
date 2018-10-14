@@ -8,7 +8,7 @@ using System.Web.Http;
 namespace AspNet.WebApi.CookiesPassthrough
 {
     /// <summary>
-    /// IHttpActionResult decorator with cookies
+    /// IHttpActionResult decorator that adds cookies to the response
     /// </summary>
     public class CookieActionResult : IHttpActionResult
     {
@@ -41,7 +41,7 @@ namespace AspNet.WebApi.CookiesPassthrough
         }
 
         /// <summary>
-        /// Adds dot before domain to make cookies visible for all subdomains
+        /// Enables cookies for all subdomains by adding dot before domain and removing "www." if needed
         /// </summary>
         /// <returns></returns>
         public CookieActionResult EnableCookiesForAllSubdomains()

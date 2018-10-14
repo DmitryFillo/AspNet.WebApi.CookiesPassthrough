@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -16,44 +17,53 @@ namespace AspNet.WebApi.CookiesPassthrough
         // TBD: use string builder
         public static string ToHttpHeader(this CookieDescriptor cookieDescriptor, string domain, bool forAllSubdomains = false)
         {
-            string domainPart;
+            var result = new StringBuilder($"{cookieDescriptor.Name}=");
+
+            switch (cookieDescriptor.CodeStatus)
+            {
+                case CookieCodeStatus.Decode:
+                    result.Append(HttpUtility.UrlDecode(cookieDescriptor.Value));
+                    break;
+                case CookieCodeStatus.Encode:
+                    result.Append(HttpUtility.UrlEncode(cookieDescriptor.Value));
+                    break;
+                case CookieCodeStatus.Nothing:
+                    result.Append(cookieDescriptor.Value);
+                    break;
+                default:
+                    result.Append(cookieDescriptor.Value);
+                    break;
+            }
+            result.Append("; ");
+
+            if (cookieDescriptor.Expires != default(DateTime))
+            {
+                result.Append($"expires={cookieDescriptor.Expires:R}; ");
+            }
+
+            if (cookieDescriptor.HttpOnly)
+            {
+                result.Append("HttpOnly; ");
+            }
+
+            if (cookieDescriptor.Secure)
+            {
+                result.Append("Secure; ");
+            }
 
             if (!string.IsNullOrEmpty(domain))
             {
-                domain = forAllSubdomains ? $".{Regex.Replace(domain, @"^www\.", "")}" : domain;
+                domain = forAllSubdomains && domain[0] != '.' ? $".{Regex.Replace(domain, @"^www\.", "")}" : domain;
 
                 // NOTE: ".localhost" will not work in the browsers
                 domain = string.Equals(domain, ".localhost") ? "localhost" : domain;
 
-                domainPart = $"domain={domain}; ";
-            }
-            else
-            {
-                domainPart = "";
+                result.Append($"domain={domain}; ");
             }
 
-            var expiresPart = cookieDescriptor.Expires == default(DateTime) ? "" : $"expires={cookieDescriptor.Expires:R}; ";
-            var httpOnlyPart = cookieDescriptor.HttpOnly ? "HttpOnly; " : "";
-            var securePart = cookieDescriptor.Secure ? "Secure; " : "";
+            result.Append(string.IsNullOrEmpty(cookieDescriptor.Path) ? "path=/" : $"path={cookieDescriptor.Path}");
 
-            string value;
-            switch (cookieDescriptor.CodeStatus)
-            {
-                case CookieCodeStatus.Decode:
-                    value = HttpUtility.UrlDecode(cookieDescriptor.Value);
-                    break;
-                case CookieCodeStatus.Encode:
-                    value = HttpUtility.UrlEncode(cookieDescriptor.Value);
-                    break;
-                case CookieCodeStatus.Nothing:
-                    value = cookieDescriptor.Value;
-                    break;
-                default:
-                    value = cookieDescriptor.Value;
-                    break;
-            }
-
-            return $"{cookieDescriptor.Name}={value}; {expiresPart}{httpOnlyPart}{securePart}{domainPart}path=/";
+            return result.ToString();
         }
     }
 }
