@@ -27,7 +27,7 @@ namespace AspNet.WebApi.CookiesPassthrough.Tests
         [Test]
         [TestCase("localhost", "", true)]
         [TestCase(".localhost", "", true)]
-        [TestCase("www.localhost", "", true)]
+        [TestCase("www.localhost", ".www.localhost", true)]
         [TestCase("www.localhost.ru", ".localhost.ru", true)]
         [TestCase("example.org", ".example.org", true)]
         [TestCase("www.example.org", ".example.org", true)]
