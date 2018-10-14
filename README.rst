@@ -32,6 +32,8 @@ Of course, cookies are legacy and complicated topic, so there is no golden bulle
 How to use
 ==========
 
+You can install this package via nuget.
+
 TBD
 
 Special thanks to
