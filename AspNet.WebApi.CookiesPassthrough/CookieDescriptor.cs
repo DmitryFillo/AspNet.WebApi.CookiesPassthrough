@@ -19,6 +19,12 @@ namespace AspNet.WebApi.CookiesPassthrough
         public string Value { get; }
         public bool HttpOnly { get; set; }
         public bool Secure { get; set; }
+
+        /// <summary>
+        /// Sets code status. Cookie value can be encoded or decoded depending on this.
+        /// </summary>
+        public CookieCodeStatus CodeStatus { get; set; }
+
         public DateTime Expires { get; set; }
 
         public bool Equals(CookieDescriptor other)

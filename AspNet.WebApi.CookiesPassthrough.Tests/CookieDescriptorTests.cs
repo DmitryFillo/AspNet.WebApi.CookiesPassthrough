@@ -70,6 +70,25 @@ namespace AspNet.WebApi.CookiesPassthrough.Tests
         }
 
         [Test]
+        [TestCase("a%3Dtest-cookie=", "a%3Dtest-cookie=", CookieCodeStatus.Nothing)]
+        [TestCase("a%3Dtest-cookie", "a=test-cookie", CookieCodeStatus.Decode)]
+        [TestCase("a=test-cookie", "a%3Dtest-cookie", CookieCodeStatus.Encode)]
+        public void ToHttpHeader_CodeStatus(string value, string valueInHeader, CookieCodeStatus codeStatus)
+        {
+            // Arrange
+            var cookieDescriptor = new CookieDescriptor("a", value)
+            {
+                CodeStatus = codeStatus,
+            };
+
+            // Act
+            var result = cookieDescriptor.ToHttpHeader("");
+
+            // Assert
+            result.Should().BeEquivalentTo($"a={valueInHeader}; path=/");
+        }
+
+        [Test]
         public void ToHttpHeader_EmptyDomain()
         {
             // Arrange

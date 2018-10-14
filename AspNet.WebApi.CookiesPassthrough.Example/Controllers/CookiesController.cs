@@ -17,11 +17,20 @@ namespace AspNet.WebApi.CookiesPassthrough.Example.Controllers
                 // NOTE: duplicates will be automatically excluded
                 new CookieDescriptor("test-cookie", "a=test-cookie"),
 
-                // NOTE: automatic decode and secure cookie
-                new CookieDescriptor("test-cookie2", "a%3Dtest-cookie") { Secure = true },
+                // NOTE: with space
+                new CookieDescriptor("test-cookie1", "a=test cookie"),
+
+                // NOTE: with space and encode
+                new CookieDescriptor("test-cookie2", "a=test cookie") { CodeStatus = CookieCodeStatus.Encode },
+
+                // NOTE: decode and secure cookie
+                new CookieDescriptor("test-cookie3", "a%3Dtest-cookie") { Secure = true, CodeStatus = CookieCodeStatus.Decode },
+
+                // NOTE: no encode or decode
+                new CookieDescriptor("test-cookie4", "a%3Dtest-cookie =2"),
 
                 // NOTE: with Expires
-                new CookieDescriptor("test-cookie-id", id.ToString()) { HttpOnly = true, Expires = new DateTime(1992, 1, 1)},
+                new CookieDescriptor("test-cookie5", id.ToString()) { HttpOnly = true, Expires = new DateTime(1992, 1, 1)},
             };
 
             switch (id)

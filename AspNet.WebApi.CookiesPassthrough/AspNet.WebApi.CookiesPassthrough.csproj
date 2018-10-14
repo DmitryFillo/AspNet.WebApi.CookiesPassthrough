@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CookieActionResult.cs" />
+    <Compile Include="CookieCodeStatus.cs" />
     <Compile Include="CookieDescriptor.cs" />
     <Compile Include="CookieDescriptorExtensions.cs" />
     <Compile Include="HttpActionResultExtensions.cs" />

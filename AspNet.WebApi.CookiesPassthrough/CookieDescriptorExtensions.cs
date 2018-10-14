@@ -13,6 +13,7 @@ namespace AspNet.WebApi.CookiesPassthrough
             string domain, bool forAllSubdomains = false) =>
             cookieDescriptors.Select(cd => cd.ToHttpHeader(domain, forAllSubdomains));
 
+        // TBD: use string builder
         public static string ToHttpHeader(this CookieDescriptor cookieDescriptor, string domain, bool forAllSubdomains = false)
         {
             string domainPart;
@@ -35,7 +36,24 @@ namespace AspNet.WebApi.CookiesPassthrough
             var httpOnlyPart = cookieDescriptor.HttpOnly ? "HttpOnly; " : "";
             var securePart = cookieDescriptor.Secure ? "Secure; " : "";
 
-            return $"{cookieDescriptor.Name}={HttpUtility.UrlDecode(cookieDescriptor.Value)}; {expiresPart}{httpOnlyPart}{securePart}{domainPart}path=/";
+            string value;
+            switch (cookieDescriptor.CodeStatus)
+            {
+                case CookieCodeStatus.Decode:
+                    value = HttpUtility.UrlDecode(cookieDescriptor.Value);
+                    break;
+                case CookieCodeStatus.Encode:
+                    value = HttpUtility.UrlEncode(cookieDescriptor.Value);
+                    break;
+                case CookieCodeStatus.Nothing:
+                    value = cookieDescriptor.Value;
+                    break;
+                default:
+                    value = cookieDescriptor.Value;
+                    break;
+            }
+
+            return $"{cookieDescriptor.Name}={value}; {expiresPart}{httpOnlyPart}{securePart}{domainPart}path=/";
         }
     }
 }
