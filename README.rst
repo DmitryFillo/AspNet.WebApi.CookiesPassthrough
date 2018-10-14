@@ -27,7 +27,7 @@ Another way is to set cookies on `HttpResponse.Cookies <https://docs.microsoft.c
 
 Better to have simple API for ``IHttpActionResult`` (WebAPI way) w/o described disadvantages. Also good to have `localhost support <https://stackoverflow.com/questions/1134290/cookies-on-localhost-with-explicit-domain>`_ or "enable these cookies for all subdomains" feature out-the-box.
 
-Of course, cookies are legacy and coplicated topic, so there is no golden bullet for all cases, just assume that ``AspNet.WebApi.CookiesPassthrough`` can address some set of common cases.
+Of course, cookies are legacy and complicated topic, so there is no golden bullet for all cases, just assume that ``AspNet.WebApi.CookiesPassthrough`` can address some set of common cases.
 
 How to use
 ==========
