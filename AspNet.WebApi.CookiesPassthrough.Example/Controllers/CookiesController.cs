@@ -43,7 +43,7 @@ namespace AspNet.WebApi.CookiesPassthrough.Example.Controllers
                     return Ok()
                         .AddCookies(cookieDescriptors, Request.GetRequestHost());
                 case 2:
-                    // NOTE: cookies for all subdomains
+                    // NOTE: cookies for all subdomains, domain will be ".example.org"
                     return Ok()
                         .AddCookies(cookieDescriptors, "www.example.org")
                         .EnableCookiesForAllSubdomains();
@@ -56,7 +56,7 @@ namespace AspNet.WebApi.CookiesPassthrough.Example.Controllers
                     return Ok()
                         .AddCookiesForAllSubdomains(cookieDescriptors, Request.GetReferrerHost());
                 case 5:
-                    // NOTE: enable for all subdomains feature respects localhost and will not use dot before domain name
+                    // NOTE: domain will be empty to make localhost cookies work
                     return Ok()
                         .AddCookies(cookieDescriptors, "localhost")
                         .EnableCookiesForAllSubdomains();
@@ -77,6 +77,19 @@ namespace AspNet.WebApi.CookiesPassthrough.Example.Controllers
                     return Ok()
                         .AddCookies(cookieDescriptors, "example.org")
                         .AddCookies(cookieDescriptors, ".www.example.net");
+                case 9:
+                    // NOTE: domain will be ".www.org", no "www" exclude
+                    return Ok()
+                        .AddCookiesForAllSubdomains(cookieDescriptors, "www.org");
+                case 10:
+                    // NOTE: domain will be empty to make localhost cookies work
+                    return Ok()
+                        .AddCookies(cookieDescriptors, ".localhost")
+                        .EnableCookiesForAllSubdomains();
+                case 11:
+                    // NOTE: same as 10
+                    return Ok()
+                        .AddCookies(cookieDescriptors, ".localhost");
                 default:
                     return BadRequest();
             }

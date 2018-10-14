@@ -55,10 +55,11 @@ namespace AspNet.WebApi.CookiesPassthrough
             {
                 domain = forAllSubdomains && domain[0] != '.' ? $".{Regex.Replace(domain, @"^www\.", "")}" : domain;
 
-                // NOTE: ".localhost" will not work in the browsers
-                domain = string.Equals(domain, ".localhost") ? "localhost" : domain;
-
-                result.Append($"domain={domain}; ");
+                // NOTE: ".localhost" or "localhost" will not work in the browsers
+                if (!(string.Equals(domain, ".localhost") || string.Equals(domain, "localhost")))
+                {
+                    result.Append($"domain={domain}; ");
+                }
             }
 
             result.Append(string.IsNullOrEmpty(cookieDescriptor.Path) ? "path=/" : $"path={cookieDescriptor.Path}");

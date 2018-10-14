@@ -25,27 +25,32 @@ namespace AspNet.WebApi.CookiesPassthrough.Tests
         }
 
         [Test]
-        [TestCase("localhost", "localhost", true)]
-        [TestCase("www.localhost", "localhost", true)]
+        [TestCase("localhost", "", true)]
+        [TestCase(".localhost", "", true)]
+        [TestCase("www.localhost", "", true)]
         [TestCase("www.localhost.ru", ".localhost.ru", true)]
         [TestCase("example.org", ".example.org", true)]
         [TestCase("www.example.org", ".example.org", true)]
         [TestCase(".www.example.org", ".www.example.org", true)]
-        [TestCase("localhost", "localhost", false)]
+        [TestCase("localhost", "", false)]
+        [TestCase(".localhost", "", false)]
         [TestCase("www.localhost", "www.localhost", false)]
         [TestCase("www.localhost.ru", "www.localhost.ru", false)]
         [TestCase("example.org", "example.org", false)]
         [TestCase("www.example.org", "www.example.org", false)]
+        [TestCase("www.org", "www.org", false)]
+        [TestCase("www.org", ".www.org", true)]
         public void ToHttpHeader_DifferentDomains(string domain, string domainInHeader, bool forAllSubdomains)
         {
             // Arrange
             var cookieDescriptor = new CookieDescriptor("a", "b");
+            var domainPart = string.IsNullOrEmpty(domainInHeader) ? "" : $"domain={domainInHeader}; ";
 
             // Act
             var result = cookieDescriptor.ToHttpHeader(domain, forAllSubdomains);
 
             // Assert
-            result.Should().BeEquivalentTo($"a=b; domain={domainInHeader}; path=/");
+            result.Should().BeEquivalentTo($"a=b; {domainPart}path=/");
         }
 
         [Test]
