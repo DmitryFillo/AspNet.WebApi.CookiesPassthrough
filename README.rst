@@ -39,5 +39,5 @@ TBD
 Special thanks to
 =================
 
-Thanks to `rustboyar <https://github.com/rustboyar>`_ and `niksanla2 <https://github.com/niksanla2>`_. These guys faced some issues with cookies (related with encoding) in WebAPI when trying to send them back from legacy API and develop PoC. I decided to research the topic a bit and create this package under impression. 
+Thanks to `rustboyar <https://github.com/rustboyar>`_ and `niksanla2 <https://github.com/niksanla2>`_. These guys faced some issues with cookies (related with encoding) in WebAPI when trying to send them back from legacy API and developed PoC. I decided to research the topic a bit and created this package under impression. 
 
