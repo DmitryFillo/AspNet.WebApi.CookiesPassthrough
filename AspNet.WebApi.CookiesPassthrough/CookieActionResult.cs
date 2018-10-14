@@ -30,7 +30,7 @@ namespace AspNet.WebApi.CookiesPassthrough
         public async Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
             var response = await _innerResult.ExecuteAsync(cancellationToken);
-
+            // TBD: get rid of .ToList()
             _cookieDescriptors
                 .Distinct()
                 .ToHttpHeaders(_domain, _forAllSubdomains)
