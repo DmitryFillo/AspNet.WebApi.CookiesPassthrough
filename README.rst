@@ -89,8 +89,8 @@ If domain is localhost
 
 If you'll specify domain as "localhost" or even ".localhost" it will not be added to the response at all to make cookies works with localhost for almost all browsers.
 
-Enabling cookie for all subdomains
-==================================
+Enabling cookies for all subdomains
+===================================
 
 When you calling ``.EnableCookiesForAllSubdomains()`` or using ``.AddCookiesForAllSubdomains(...)`` the following logic will be applied:
 
