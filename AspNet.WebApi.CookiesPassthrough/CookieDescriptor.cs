@@ -22,7 +22,7 @@ namespace AspNet.WebApi.CookiesPassthrough
         public string Path { get; set; }
 
         /// <summary>
-        /// Sets code status. Cookie value can be encoded or decoded depending on this.
+        /// Sets code status. Cookie value can be encoded or decoded depending on this value
         /// </summary>
         public CookieCodeStatus CodeStatus { get; set; }
 

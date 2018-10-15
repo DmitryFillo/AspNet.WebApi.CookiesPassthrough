@@ -15,7 +15,7 @@ namespace AspNet.WebApi.CookiesPassthrough
         private readonly IEnumerable<CookieDescriptor> _cookieDescriptors;
         private readonly IHttpActionResult _innerResult;
         private readonly string _domain;
-        private bool _forAllSubdomains;
+        private bool _isEnabledForAllSubdomains;
 
         public CookieActionResult(
             IHttpActionResult innerResult,
@@ -30,23 +30,26 @@ namespace AspNet.WebApi.CookiesPassthrough
         public async Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
             var response = await _innerResult.ExecuteAsync(cancellationToken);
-            // TBD: get rid of .ToList()
-            _cookieDescriptors
+
+            var headers = _cookieDescriptors
                 .Distinct()
-                .ToHttpHeaders(_domain, _forAllSubdomains)
-                .ToList()
-                .ForEach(h => response.Headers.Add("Set-Cookie", h));
+                .ToHttpHeaders(_domain, _isEnabledForAllSubdomains);
+
+            foreach (var h in headers)
+            {
+                response.Headers.Add("Set-Cookie", h);
+            }
 
             return response;
         }
 
         /// <summary>
-        /// Enables cookies for all subdomains by adding dot before domain and removing "www." if needed
+        /// Enables cookies for all subdomains
         /// </summary>
         /// <returns></returns>
         public CookieActionResult EnableCookiesForAllSubdomains()
         {
-            _forAllSubdomains = true;
+            _isEnabledForAllSubdomains = true;
             return this;
         }
     }

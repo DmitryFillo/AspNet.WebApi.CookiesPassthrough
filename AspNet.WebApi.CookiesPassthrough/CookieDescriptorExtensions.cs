@@ -9,7 +9,7 @@ namespace AspNet.WebApi.CookiesPassthrough
 {
     internal static class CookieDescriptorExtensions
     {
-        private static readonly Regex _withoutWwwRegex = new Regex(@"^www\.(?<domain>.+\..+)");
+        private static readonly Regex WithoutWwwRegex = new Regex(@"^www\.(?<domain>.+\..+)", RegexOptions.IgnoreCase);
         public static IEnumerable<string> ToHttpHeaders(
             this IEnumerable<CookieDescriptor> cookieDescriptors,
             string domain, bool forAllSubdomains = false) =>
@@ -51,15 +51,22 @@ namespace AspNet.WebApi.CookiesPassthrough
                 result.Append("Secure; ");
             }
 
-            if (!string.IsNullOrEmpty(domain))
+            if (!string.IsNullOrEmpty(domain) 
+                // NOTE: do not add if domain is "localhost" or ".localhost"
+                && !(string.Equals(domain, ".localhost") || string.Equals(domain, "localhost"))
+                )
             {
-                // TBD: refactor it
-                domain = forAllSubdomains && domain[0] != '.' ? $".{_withoutWwwRegex.Replace(domain, m => string.IsNullOrEmpty(m.Groups["domain"].Value) ? domain :m.Groups["domain"].Value)}" : domain;
-
-                // NOTE: ".localhost" or "localhost" will not work in the browsers
-                if (!(string.Equals(domain, ".localhost") || string.Equals(domain, "localhost")))
+                if (forAllSubdomains && domain[0] != '.')
                 {
-                    result.Append($"domain={domain}; ");
+                    domain = $".{WithoutWwwRegex.Replace(domain, ReplaceEvaluator)}";
+                }
+
+                result.Append($"domain={domain}; ");
+
+                string ReplaceEvaluator(Match m)
+                {
+                    var domainMatchValue = m.Groups["domain"].Value;
+                    return string.IsNullOrEmpty(domainMatchValue) ? m.Value : domainMatchValue;
                 }
             }
 
