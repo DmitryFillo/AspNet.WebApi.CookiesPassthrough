@@ -34,10 +34,34 @@ How to use
 
 You can install this package via nuget.
 
-TBD
+Then try to add cookies to the response:
+
+.. code:: c#
+  var cookieDescriptors = new[]
+    {
+        new CookieDescriptor("test-cookie", "1"),
+        new CookieDescriptor("test-cookie2", "2=") { CodeStatus = CookieCodeStatus.Encode },
+        new CookieDescriptor("test-cookie3", "a%3D3") {
+            Secure = true,
+            CodeStatus = CookieCodeStatus.Decode,
+            HttpOnly = true,
+            Expires = new DateTime(1992, 1, 1)
+        },
+        new CookieDescriptor("test-cookie4", "4") {
+            Path = "/subfolder/"
+        },
+    };
+
+    // NOTE: also you can use Request.GetReferrerHost() which is useful when you're developing AJAX API
+    return Ok().AddCookies(cookieDescriptors, Request.GetRequestHost());
+
+Example
+=======
+
+Check ``AspNet.WebApi.CookiesPassthrough.Example`` project.
 
 Special thanks to
 =================
 
-Thanks to `rustboyar <https://github.com/rustboyar>`_ and `niksanla2 <https://github.com/niksanla2>`_. These guys faced some issues with cookies (related with encoding) in WebAPI when trying to send them back from legacy API and developed PoC. I decided to research the topic a bit and created this package being under impression. 
+Thanks to `rustboyar <https://github.com/rustboyar>`_ and `niksanla2 <https://github.com/niksanla2>`_. These guys faced some issues with cookies (related with encoding) in WebAPI when trying to send them back from legacy API and developed PoC. I decided to research the topic a bit and create this package to make common "cookiejob" simple.
 
