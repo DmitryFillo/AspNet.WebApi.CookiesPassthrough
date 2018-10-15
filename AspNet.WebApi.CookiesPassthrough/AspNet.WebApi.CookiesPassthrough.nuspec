@@ -3,8 +3,8 @@
   <metadata>
     <id>ApsNet.WebApi.CookiesPassthrough</id>
     <version>1.0.0-rc</version>
-    <authors>Dmitry FIllo</authors>
-    <owners></owners>
+    <authors>Dmitry Fillo</authors>
+    <owners>fillo</owners>
     <iconUrl></iconUrl>
     <description>Allows you to add cookies for IHttpActionResult in WebAPI controllers</description>
     <copyright>Copyright ©2018 Dmitry Fillo</copyright>
