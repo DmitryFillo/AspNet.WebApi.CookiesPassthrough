@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>ApsNet.WebApi.CookiesPassthrough</id>
+    <version>1.0.0-rc</version>
+    <authors>Dmitry FIllo</authors>
+    <owners></owners>
+    <iconUrl></iconUrl>
+    <description>Allows you to add cookies for IHttpActionResult in WebAPI controllers</description>
+    <copyright>Copyright ©2018 Dmitry Fillo</copyright>
+    <tags>webapi cookies passthrough response</tags>
+    <licenseUrl>https://raw.githubusercontent.com/DmitryFillo/AspNet.WebApi.CookiesPassthrough/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/DmitryFillo/AspNet.WebApi.CookiesPassthrough</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <dependencies>
+      <dependency id="Microsoft.AspNet.WebApi.Client" version="5.0.0" />
+      <dependency id="Microsoft.AspNet.WebApi.Core" version="5.0.0" />
+    </dependencies>
+  </metadata>
+</package>

@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AspNet.WebApi.CookiesPassthrough")]
-[assembly: AssemblyDescription("Allows you to use .AddCookies() for IHttpActionResult in WebAPI controllers")]
+[assembly: AssemblyDescription("Allows you to add cookies for IHttpActionResult in WebAPI controllers")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AspNet.WebApi.CookiesPassthrough")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyCopyright("Copyright © 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
