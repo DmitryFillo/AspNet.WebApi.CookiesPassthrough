@@ -32,28 +32,79 @@ Of course, cookies are legacy and complicated topic, so there is no golden bulle
 How to use
 ==========
 
-You can install this package via nuget.
+You can install ``AspNet.WebApi.CookiesPassthrough`` package via nuget.
 
 Then try to add cookies to the response:
 
 .. code:: c#
-  var cookieDescriptors = new[]
-    {
-        new CookieDescriptor("test-cookie", "1"),
-        new CookieDescriptor("test-cookie2", "2=") { CodeStatus = CookieCodeStatus.Encode },
-        new CookieDescriptor("test-cookie3", "a%3D3") {
-            Secure = true,
-            CodeStatus = CookieCodeStatus.Decode,
-            HttpOnly = true,
-            Expires = new DateTime(1992, 1, 1)
-        },
-        new CookieDescriptor("test-cookie4", "4") {
-            Path = "/subfolder/"
-        },
-    };
 
-    // NOTE: also you can use Request.GetReferrerHost() which is useful when you're developing AJAX API
-    return Ok().AddCookies(cookieDescriptors, Request.GetRequestHost());
+  var cookieDescriptors = new[] 
+  {
+       // NOTE: simple cookie with Path=/
+       new CookieDescriptor("test-cookie", "1"),
+       
+       // NOTE: just encode
+       new CookieDescriptor("test-cookie2", "2=") {
+           CodeStatus = CookieCodeStatus.Encode
+       },
+        
+       // NOTE: expire, secure, httponly + decode
+       new CookieDescriptor("test-cookie3", "a%3D3") {
+           Secure = true,
+           CodeStatus = CookieCodeStatus.Decode,
+           HttpOnly = true,
+           Expires = new DateTime(2118, 1, 1)
+       },
+        
+       // NOTE: path will be added and no decode or encode
+       new CookieDescriptor("test-cookie4", "4%3D=") {
+           Path = "/subfolder/"
+       },
+   };
+
+   // NOTE: also you can use Request.GetReferrerHost() which is useful when you're developing AJAX API
+   return Ok().AddCookies(cookieDescriptors, Request.GetRequestHost());
+
+Note ``CookieDescriptor`` allows you to control encode or decode.
+
+You can add dot before domain to enable cookies for all subdomains:
+
+.. code:: c#
+   
+   // NOTE: domain will be ".example.org"
+   return Ok().AddCookies(cookieDescriptors, "example.org").EnableCookiesForAllSubdomains();
+   
+   // NOTE: same
+   return Ok().AddCookiesForAllSubdomains(cookieDescriptors, "example.org");
+   
+   // NOTE: or even this
+   return Ok()
+       .AddCookiesForAllSubdomains(cookieDescriptorsForAllSubdomains, "example.org")
+       .AddCookies(cookieDescriptorsForOneDomain, "example.org")
+       .AddCookies(cookieDescriptorsForAnotherDomainAndAllSubdomains, "example.org")
+       .EnableCookiesForAllSubdomains();
+
+If domain is localhost
+======================
+
+If you'll specify domain as "localhost" or even ".localhost" it will not be added to the response at all to make cookies works with localhost for almost all browsers.
+
+Enabling cookie for all subdomains
+==================================
+
+When you calling ``.EnableCookiesForAllSubdomains()`` or using ``.AddCookiesForAllSubdomains(...)`` the following logic will be applied:
+
+.. code:: c#
+
+  "localhost"        => ""
+  ".localhost"       => ""
+  "www.localhost"    => ".www.localhost"
+  "www.localhost.ru" => ".localhost.ru"
+  "www.org"          => ".www.org"
+  ".www.org"         => ".www.org"
+  "example.org"      => ".example.org"
+  "www.example.org"  => ".example.org"
+  ".www.example.org" => ".www.example.org"
 
 Example
 =======
