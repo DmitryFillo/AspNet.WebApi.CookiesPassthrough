@@ -8,7 +8,7 @@ ASP.NET Web API CookiesPassthrough
 TBD: 
 
 - iconUrl 
-- review docs and code
+- review code
 - nuget pack MyProject.csproj -properties Configuration=Release 
 
 Allows you to add cookies for IHttpActionResult in WebAPI controllers.
@@ -21,7 +21,7 @@ Motivation
 There are several ways to add cookies to the response in WebAPI. The recommended way, according to the `docs <https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/http-cookies#cookies-in-web-api>`_, is to use ``resp.Headers.AddCookies(cookies)`` extension method, but there are some disadvantages:
 
 - Cookie values are always encoded. It's `complicated topic <https://stackoverflow.com/questions/1969232/allowed-characters-in-cookies>`_, so encode / decode should be configurable, e.g. Chrome works well with spaces in cookie values or sometimes you need ``=`` char in a cookie value.
-- ``CookieHeaderValue`` `supports name-value pairs<https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/http-cookies#structured-cookie-data>`_ and such collections will be presented as ``cookie-name=key1=value1&key2=value2``, but collection will be encoded if you'll try to set it via just passing string. Passing string is useful for cases when you passing cookie values through services, e.g. integration with legacy cookie-based APIs.
+- ``CookieHeaderValue`` `supports name-value pairs <https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/http-cookies#structured-cookie-data>`_ and such collections will be presented as ``cookie-name=key1=value1&key2=value2``, but collection will be encoded if you'll try to set it via just passing string. Passing cookie collection strings directly is useful for cases when you passing cookie values through services, e.g. integration with legacy cookie-based APIs.
 
 Another way is to set cookies on `HttpResponse.Cookies <https://docs.microsoft.com/en-us/dotnet/api/system.web.httpresponse.cookies?view=netframework-4.7.2#System_Web_HttpResponse_Cookies>`_ via ``HttpContext`` (check `example <https://stackoverflow.com/questions/9793591/how-do-i-set-a-response-cookie-on-httpreponsemessage/9793779#9793779>`_), but there are even more serious disadvantages:
 
@@ -91,7 +91,7 @@ If domain is localhost
 Enable cookies for all subdomains
 =================================
 
-When you call ``.EnableCookiesForAllSubdomains()`` or use ``.AddCookiesForAllSubdomains(...)`` the following logic domain convertion will be applied:
+When you call ``.EnableCookiesForAllSubdomains()`` or use ``.AddCookiesForAllSubdomains(...)`` the following domain convertion will be applied:
 
 .. code:: c#
 
