@@ -3,10 +3,13 @@ using System.Web.Http;
 
 namespace AspNet.WebApi.CookiesPassthrough
 {
+    /// <summary>
+    /// <see cref="T:IHttpActionResult" /> extensions
+    /// </summary>
     public static class HttpActionResultExtensions
     {
         /// <summary>
-        /// Adds cookies to the IHttpActionResult
+        /// Adds cookies to the <see cref="T:IHttpActionResult" />
         /// </summary>
         /// <param name="result"></param>
         /// <param name="cookieDescriptors"></param>
@@ -19,7 +22,7 @@ namespace AspNet.WebApi.CookiesPassthrough
             new CookieActionResult(result, cookieDescriptors, domain);
 
         /// <summary>
-        /// Adds cookies to the IHttpActionResult and enables all of them for all subdomains
+        /// Adds cookies to the <see cref="T:IHttpActionResult" /> and enables all of them for all subdomains
         /// </summary>
         /// <param name="result"></param>
         /// <param name="cookieDescriptors"></param>

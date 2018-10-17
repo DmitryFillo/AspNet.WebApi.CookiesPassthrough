@@ -2,6 +2,9 @@
 
 namespace AspNet.WebApi.CookiesPassthrough
 {
+    /// <summary>
+    /// <see cref="T:HttpRequestMessage" /> extensions
+    /// </summary>
     public static class HttpRequestMessageExtensions
     {
         /// <summary>

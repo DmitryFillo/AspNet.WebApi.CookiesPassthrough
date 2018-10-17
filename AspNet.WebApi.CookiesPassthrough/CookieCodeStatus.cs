@@ -6,7 +6,7 @@
     public enum CookieCodeStatus
     {
         /// <summary>
-        /// Nothing to do with the cookie value
+        /// Nothing to do with the cookie value (default)
         /// </summary>
         Nothing = 0,
 

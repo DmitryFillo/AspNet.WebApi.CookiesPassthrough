@@ -7,8 +7,9 @@ using System.Web.Http;
 
 namespace AspNet.WebApi.CookiesPassthrough
 {
+    /// <inheritdoc />
     /// <summary>
-    /// IHttpActionResult decorator that adds cookies to the response
+    /// Adds cookie headers to the response
     /// </summary>
     public class CookieActionResult : IHttpActionResult
     {
@@ -17,6 +18,12 @@ namespace AspNet.WebApi.CookiesPassthrough
         private readonly string _domain;
         private bool _isEnabledForAllSubdomains;
 
+        /// <summary>
+        /// Adds cookie headers to the response
+        /// </summary>
+        /// <param name="innerResult">Result to decorate</param>
+        /// <param name="cookieDescriptors">Cookie descriptors</param>
+        /// <param name="domain">Domain for given cookie descriptors</param>
         public CookieActionResult(
             IHttpActionResult innerResult,
             IEnumerable<CookieDescriptor> cookieDescriptors,
@@ -27,6 +34,7 @@ namespace AspNet.WebApi.CookiesPassthrough
             _domain = domain;
         }
 
+        /// <inheritdoc />
         public async Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
             var response = await _innerResult.ExecuteAsync(cancellationToken);
