@@ -56,6 +56,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="AspNet.WebApi.CookiesPassthrough.nuspec" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

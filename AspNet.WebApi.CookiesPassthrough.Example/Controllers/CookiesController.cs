@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
+using System.Net.Http;
 using System.Web.Http;
+using AspNet.WebApi.CookiesPassthrough.Example.Controllers.Common;
 
 namespace AspNet.WebApi.CookiesPassthrough.Example.Controllers
 {
@@ -93,6 +96,29 @@ namespace AspNet.WebApi.CookiesPassthrough.Example.Controllers
                 default:
                     return BadRequest();
             }
+        }
+
+        [HttpGet]
+        [Route("examples-autoincrement/{id}")]
+        public IHttpActionResult GetAutoIncrementExampleById([FromUri] int id)
+        {
+            const string cookieName = nameof(GetAutoIncrementExampleById);
+
+            // NOTE: get cookie by name, then get value of "another-id" and parse them to int
+            int.TryParse(Request.Headers.GetCookies(cookieName).FirstOrDefault()?[cookieName]?["another-id"], out var anotherId);
+
+            var cookieDescriptors = new[]
+            {
+                // NOTE: return collection
+                new CookieDescriptor(cookieName, $"id={id.ToString()}&another-id={anotherId + 1}")
+                {
+                    HttpOnly = true,
+                    Expires = new DateTime(DateTime.Now.Year + 1, 1, 1)
+                },
+            };
+
+            // NOTE: custom text result
+            return new TextResult("Check your cookies", Request).AddCookies(cookieDescriptors, Request.GetRequestHost());
         }
     }
 }
