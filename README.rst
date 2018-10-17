@@ -8,7 +8,7 @@ ASP.NET Web API CookiesPassthrough
 TBD: 
 
 - iconUrl 
-- review docs and code
+- review code
 - nuget pack MyProject.csproj -properties Configuration=Release 
 
 Allows you to add cookies for IHttpActionResult in WebAPI controllers.
@@ -86,12 +86,12 @@ You can enable cookies for all subdomains:
 If domain is localhost
 ======================
 
-`Browsers has problems with localhost cookies <https://stackoverflow.com/questions/1134290/cookies-on-localhost-with-explicit-domain>`_. If you'll specify domain as ``localhost`` or even ``.localhost`` it will not be added to the response at all to make cookies works with localhost for almost all browsers.
+`Browser has problems with localhost cookies <https://stackoverflow.com/questions/1134290/cookies-on-localhost-with-explicit-domain>`_. If you'll specify domain as ``localhost`` or even ``.localhost`` it will not be added to the response at all to make cookies works with localhost for almost all browsers.
 
 Enable cookies for all subdomains
 =================================
 
-When you call ``.EnableCookiesForAllSubdomains()`` or use ``.AddCookiesForAllSubdomains(...)`` the following logic domain convertion will be applied:
+When you call ``.EnableCookiesForAllSubdomains()`` or use ``.AddCookiesForAllSubdomains(...)`` the following domain convertion will be applied:
 
 .. code:: c#
 
