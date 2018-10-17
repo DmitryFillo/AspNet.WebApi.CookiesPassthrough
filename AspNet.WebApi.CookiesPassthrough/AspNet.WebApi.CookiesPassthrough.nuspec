@@ -8,7 +8,7 @@
     <iconUrl>https://raw.githubusercontent.com/DmitryFillo/AspNet.WebApi.CookiesPassthrough/master/assets/icons8-cookie-100.png</iconUrl>
     <description>Allows you to add cookies for IHttpActionResult in WebAPI controllers</description>
     <copyright>Copyright © 2018 Dmitry Fillo</copyright>
-    <tags>webapi cookies passthrough response webapi2</tags>
+    <tags>webapi cookies passthrough response webapi2 aspnet aspnetwebapi</tags>
     <releaseNotes>Initial release</releaseNotes>
     <licenseUrl>https://raw.githubusercontent.com/DmitryFillo/AspNet.WebApi.CookiesPassthrough/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/DmitryFillo/AspNet.WebApi.CookiesPassthrough</projectUrl>
