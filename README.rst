@@ -5,12 +5,6 @@ ASP.NET Web API CookiesPassthrough
 .. image:: https://travis-ci.com/DmitryFillo/AspNet.WebApi.CookiesPassthrough.svg?branch=master
      :target: https://travis-ci.com/DmitryFillo/AspNet.WebApi.CookiesPassthrough
 
-TBD: 
-
-- iconUrl 
-- review code
-- nuget pack MyProject.csproj -properties Configuration=Release 
-
 Allows you to add cookies for IHttpActionResult in WebAPI controllers.
 
 .. contents::
