@@ -108,4 +108,4 @@ Special thanks to
 =================
 
 - Thanks to `rustboyar <https://github.com/rustboyar>`_ and `niksanla2 <https://github.com/niksanla2>`_. These guys faced some issues with cookies (related with encoding) in WebAPI when trying to send them back from legacy API and developed PoC. I decided to research the topic a bit and create this package to make common "cookiejob" simple.
-- Thanks to `KatArt <https://www.behance.net/kberniacdd72>`_ for `nuget package <https://www.nuget.org/packages/ApsNet.WebApi.CookiesPassthrough>`_ cute icon.
+- Thanks to `KatArt <https://www.behance.net/kberniacdd72>`_ for `nuget package <https://www.nuget.org/packages/ApsNet.WebApi.CookiesPassthrough>`_ cute icon (love this telegram stickers impression).
