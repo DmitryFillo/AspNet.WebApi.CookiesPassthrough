@@ -10,11 +10,12 @@ namespace AspNet.WebApi.CookiesPassthrough
     internal static class CookieDescriptorExtensions
     {
         private static readonly Regex WithoutWwwRegex = new Regex(@"^www\.(?<domain>.+\..+)", RegexOptions.IgnoreCase);
+
         public static IEnumerable<string> ToHttpHeaders(
             this IEnumerable<CookieDescriptor> cookieDescriptors,
             string domain, bool forAllSubdomains = false) =>
             cookieDescriptors.Select(cd => cd.ToHttpHeader(domain, forAllSubdomains));
-
+   
         public static string ToHttpHeader(this CookieDescriptor cookieDescriptor, string domain, bool forAllSubdomains = false)
         {
             var result = new StringBuilder($"{cookieDescriptor.Name}=");
