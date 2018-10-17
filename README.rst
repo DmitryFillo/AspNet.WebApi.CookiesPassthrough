@@ -80,7 +80,7 @@ You can enable cookies for all subdomains:
 If domain is localhost
 ======================
 
-`Browsers has problems with localhost cookies <https://stackoverflow.com/questions/1134290/cookies-on-localhost-with-explicit-domain>`_. If you'll specify domain as ``localhost`` or even ``.localhost`` it will not be added to the response at all to make cookies works with localhost for almost all browsers.
+`Browsers has problems with localhost cookies <https://stackoverflow.com/questions/1134290/cookies-on-localhost-with-explicit-domain>`_. If you'll specify domain as ``localhost`` or even ``.localhost`` it will not be added to the response at all to make cookies with localhost work for almost all browsers.
 
 Enable cookies for all subdomains
 =================================
